@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ::selection {
+        background-color: #333;
+        color: antiquewhite;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100dvh;
+        font-family: "poppins";
+        font-size: clamp(1.2em, 1vw + 0.625rem, 2em);
+      }
+      p {
+        font-weight: lighter;
+      }
+      button {
+        width: 90vw;
+        max-width: 200px;
+        background-color: #333;
+        color: antiquewhite;
+        padding-block: 15px;
+        margin-top: 30px;
+        border: 1px solid #333;
+        outline: none;
+        cursor: pointer;
+        transition: all 250ms ease 80ms;
+      }
+      button:hover {
+        background-color: antiquewhite;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <p>Welcome guys to my Project ❤️</p>
+    <button id="logout" type="submit">Logout</button>
+    <script type="module" src="./scripts/pages/home.js"></script>
+  </body>
+</html>

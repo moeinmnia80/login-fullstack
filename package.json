@@ -1,0 +1,12 @@
+{
+  "name": "my-fullstack-app",
+  "private": true,
+  "scripts": {
+    "client": "live-server front-end --port=5500",
+    "server": "node --watch ./back-end/src/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
