@@ -1,15 +1,16 @@
 import { authApi } from "../api/endpoint.js";
 
-const $ = document;
-const loginForm = $.querySelector("#login-form form");
-const registerForm = $.querySelector("#register-form form");
-const loginInputs = $.querySelectorAll("#login-form input");
-const registerInputs = $.querySelectorAll("#register-form input");
+const loginForm = document.querySelector("#login-form form");
+const registerForm = document.querySelector("#register-form form");
+const loginInputs = document.querySelectorAll("#login-form input");
+const registerInputs = document.querySelectorAll("#register-form input");
 
-const switchToRegister = $.querySelector(
+const switchToRegister = document.querySelector(
   ".toggle-link a[onclick*='register-form']",
 );
-const switchToLogin = $.querySelector(".toggle-link a[onclick*='login-form']");
+const switchToLogin = document.querySelector(
+  ".toggle-link a[onclick*='login-form']",
+);
 
 let isStatus = "login-form";
 let data = {};
