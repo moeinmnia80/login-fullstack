@@ -19,6 +19,7 @@ function toggleForm(formId) {
     box.classList.remove("active");
   });
   isStatus = formId;
+  data = {};
   document.getElementById(formId).classList.add("active");
 }
 
@@ -34,23 +35,27 @@ setupInputs(loginInputs);
 setupInputs(registerInputs);
 const auth = localStorage.getItem("auth");
 auth && location.assign("/home.html");
-function handleSubmit(event) {
+async function handleSubmit(event) {
   event.preventDefault();
-
-  isStatus === "login-form"
-    ? authApi
-        .login(data)
-        .then((res) =>
-          res?.data
-            ? ((location.pathname = "/home.html"),
-              localStorage.setItem("auth", true))
-            : null,
-        )
-    : authApi.register(data).then((res) => console.log(res));
+  try {
+    if (isStatus === "login-form") {
+      const res = await authApi.login(data);
+      if (res?.data) {
+        localStorage.setItem("auth", true);
+        location.assign("/home.html");
+      }
+    } else {
+      const res = await authApi.register(data);
+      if (res?.data) {
+        toggleForm("login-form");
+      }
+    }
+  } catch (err) {
+    console.error("Auth error:", err);
+  }
 }
 loginForm.addEventListener("submit", handleSubmit);
 registerForm.addEventListener("submit", handleSubmit);
-
 document.querySelectorAll(".toggle-link a").forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();

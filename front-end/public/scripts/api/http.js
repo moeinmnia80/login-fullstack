@@ -4,6 +4,7 @@ async function http(url, options = {}) {
   const response = await fetch(`http://localhost:5000${url}`, {
     headers: {
       "Content-Type": "application/json",
+      ...options.headers,
     },
     ...options,
   });
