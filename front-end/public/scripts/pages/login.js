@@ -20,7 +20,6 @@ function toggleForm(formId) {
     box.classList.remove("active");
   });
   isStatus = formId;
-  data = {};
   document.getElementById(formId).classList.add("active");
 }
 
@@ -38,21 +37,20 @@ const auth = localStorage.getItem("auth");
 auth && location.assign("/home.html");
 async function handleSubmit(event) {
   event.preventDefault();
-  try {
-    if (isStatus === "login-form") {
-      const res = await authApi.login(data);
-      if (res?.data) {
-        localStorage.setItem("auth", true);
-        location.assign("/home.html");
-      }
-    } else {
-      const res = await authApi.register(data);
-      if (res?.data) {
-        toggleForm("login-form");
-      }
+
+  if (isStatus === "login-form") {
+    const res = await authApi.login(data);
+
+    if (res?.data) {
+      localStorage.setItem("auth", true);
+      location.assign("/home.html");
     }
-  } catch (err) {
-    console.error("Auth error:", err);
+  } else {
+    const res = await authApi.register(data);
+
+    if (res?.data) {
+      toggleForm("login-form");
+    }
   }
 }
 loginForm.addEventListener("submit", handleSubmit);

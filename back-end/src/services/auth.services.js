@@ -3,7 +3,20 @@ const AppError = require("../utils/appError.js");
 const {
   createUser,
   findUserByEmail,
+  deleteUser,
 } = require("../repositories/users.repository.js");
+
+const removeUser = async ({ email }) => {
+  const existingUser = await findUserByEmail(email);
+  if (!existingUser.length) {
+    throw new AppError("User Not Found", 404);
+  }
+  const user = deleteUser(email);
+
+  return {
+    user,
+  };
+};
 
 const registerUser = async ({ name, email, password }) => {
   const existingUser = await findUserByEmail(email);
@@ -47,4 +60,4 @@ const loginUser = async ({ email, password }) => {
   };
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, removeUser };

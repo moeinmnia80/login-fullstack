@@ -26,9 +26,14 @@ const createUser = async ({ name, email, password }) => {
     throw error;
   }
 };
+
+const deleteUser = async (email) => {
+  const user = await fetchData("DELETE FROM `users` WHERE email = ?", [email]);
+  return user || [];
+};
 const getUsers = async () => {
   const users = await fetchData("SELECT * FROM `users`");
   return users || [];
 };
 
-module.exports = { findUserByEmail, createUser, getUsers };
+module.exports = { findUserByEmail, createUser, getUsers, deleteUser };

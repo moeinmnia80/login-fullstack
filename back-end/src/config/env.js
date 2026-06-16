@@ -10,4 +10,5 @@ const env = {
   dbUser: process.env.DB_USER || "root",
   dbPassword: process.env.DB_PASSWORD || "",
 };
+
 module.exports = env;

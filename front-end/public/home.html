@@ -21,9 +21,10 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 100dvh;
+        min-height: 100dvh;
         font-family: "poppins";
         font-size: clamp(1.2em, 1vw + 0.625rem, 2em);
+        padding: 50px 0;
       }
       .content {
         display: flex;
@@ -32,10 +33,10 @@
         justify-content: center;
         animation: fadeIn 0.5s ease-in-out;
       }
-      p {
+      .content > p {
         font-weight: lighter;
       }
-      button {
+      .content > button {
         width: 90vw;
         max-width: 200px;
         background-color: #333;
@@ -47,7 +48,89 @@
         cursor: pointer;
         transition: all 250ms ease 80ms;
       }
-      button:hover {
+      .content > button:hover {
+        background-color: antiquewhite;
+        color: #333;
+      }
+      #users-box {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        width: 90vw;
+        max-width: 780px;
+        margin-top: 25px;
+        padding: 25px;
+        border: 2px solid #333;
+        border-radius: 15px;
+      }
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #333;
+        border-radius: 10px;
+      }
+      .user__number {
+        font-size: clamp(0.6em, 1vw + 0.5rem, 0.8em);
+        margin-right: 15px;
+      }
+      .user__img {
+        height: 100%;
+        flex-grow: 1;
+        aspect-ratio: 1/1;
+        border-radius: 5px;
+        background-color: #e3e3e3;
+      }
+      .user__info {
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+        height: 100%;
+        margin-left: 10px;
+      }
+      .user__name {
+        font-size: clamp(0.8em, 1vw + 0.5rem, 0.8em);
+      }
+      .user__name::first-letter {
+        text-transform: uppercase;
+      }
+      .user__email {
+        font-size: clamp(0.8em, 1vw + 0.5rem, 0.8em);
+      }
+      .user__actions {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .user__remove,
+      .user__edit {
+        display: inline-block;
+        width: 80px;
+        height: 35px;
+        background-color: #333;
+        color: antiquewhite;
+        border: 1px solid #333;
+        outline: none;
+        cursor: pointer;
+        transition: all 250ms ease-in-out 80ms;
+      }
+      .user__remove {
+        border-bottom: 1px solid antiquewhite;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .user__edit {
+        border-top: 1px solid antiquewhite;
+
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      .user__remove:hover,
+      .user__edit:hover {
         background-color: antiquewhite;
         color: #333;
       }
@@ -61,6 +144,27 @@
           transform: translateY(0);
         }
       }
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 1px solid #333;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: none;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      .active {
+        display: inline-block;
+      }
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -68,6 +172,9 @@
       <h1>Home</h1>
       <p>Welcome guys to my Project ❤️</p>
       <button id="logout" type="submit">Logout</button>
+    </div>
+    <div id="users-box">
+      <span class="loader active"></span>
     </div>
     <script type="module" src="./scripts/pages/home.js"></script>
   </body>
