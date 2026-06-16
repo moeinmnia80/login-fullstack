@@ -1,7 +1,7 @@
-const fetchData = require("../config/db.js");
+const executeQuery = require("../config/db.js");
 
 const getCourses = async () => {
-  const courses = await fetchData("SELECT * FROM `courses`");
+  const courses = await executeQuery("SELECT * FROM `courses`");
   return courses || [];
 };
 

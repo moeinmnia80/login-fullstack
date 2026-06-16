@@ -1,38 +1,31 @@
-const fetchData = require("../config/db.js");
+const executeQuery = require("../config/db.js");
 
 const findUserByEmail = async (email) => {
-  const user = await fetchData(
+  const result = await executeQuery(
     "SELECT id, name, email, password FROM users WHERE email = ? LIMIT 1",
     [email],
   );
-  return user || null;
+  return result[0] || null;
 };
 const createUser = async ({ name, email, password }) => {
-  try {
-    const newUser = await fetchData(
-      "INSERT INTO `users` (id, email, name, password) VALUES (?, ?, ?, ?)",
-      [null, email, name, password],
-    );
+  const result = await executeQuery(
+    "INSERT INTO `users` (email, name, password) VALUES (?, ?, ?)",
+    [email, name, password],
+  );
 
-    const user = await fetchData(
-      "SELECT * FROM `users` WHERE email = ? LIMIT 1",
-      [email],
-    );
-    return user && user.length > 0 ? user : null;
-  } catch (error) {
-    if (error.code === "ER_DUP_ENTRY" || error.errno === 1062) {
-      throw new AppError("این ایمیل قبلاً ثبت نام کرده است", 400);
-    }
-    throw error;
-  }
+  const rows = await executeQuery(
+    "SELECT * FROM `users` WHERE email = ? LIMIT 1",
+    [result.insertId],
+  );
+
+  return { email, name, password } || null;
 };
 
 const deleteUser = async (email) => {
-  const user = await fetchData("DELETE FROM `users` WHERE email = ?", [email]);
-  return user || [];
+  return executeQuery("DELETE FROM `users` WHERE email = ?", [email]);
 };
 const getUsers = async () => {
-  const users = await fetchData("SELECT * FROM `users`");
+  const users = await executeQuery("SELECT * FROM `users`");
   return users || [];
 };
 

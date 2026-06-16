@@ -11,11 +11,10 @@ window.addEventListener("load", async () => {
   try {
     const res = await authApi.getUsers();
 
-    if (res?.data.length) {
-      data = res.data;
+    if (res.length) {
       document.querySelector(".loader").classList.remove("active");
 
-      data.forEach((piece, index) => {
+      res.forEach((piece, index) => {
         usersBox.insertAdjacentHTML(
           "beforeend",
           `

@@ -62,7 +62,7 @@
         max-width: 780px;
         margin-top: 25px;
         padding: 25px;
-        border: 2px solid #333;
+        border: 1px solid #d2d2d2;
         border-radius: 15px;
       }
       .user {
@@ -71,12 +71,23 @@
         justify-content: space-between;
         width: 100%;
         padding: 15px;
-        border: 1px solid #333;
+        border: 1px solid #d2d2d2;
         border-radius: 10px;
+        transition: all 250ms ease-in-out 80ms;
+      }
+      .user:hover {
+        transform: scale(1.025);
+        border-color: #333;
       }
       .user__number {
+        display: flex;
+        align-items: center;
         font-size: clamp(0.6em, 1vw + 0.5rem, 0.8em);
         margin-right: 15px;
+        border-right: 1px solid #d2d2d2;
+        padding-right: 25px;
+        padding-left: 10px;
+        height: 70px;
       }
       .user__img {
         height: 100%;

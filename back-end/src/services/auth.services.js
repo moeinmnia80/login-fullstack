@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const AppError = require("../utils/appError.js");
+
 const {
   createUser,
   findUserByEmail,
@@ -8,56 +9,56 @@ const {
 
 const removeUser = async ({ email }) => {
   const existingUser = await findUserByEmail(email);
-  if (!existingUser.length) {
+  if (!existingUser) {
     throw new AppError("User Not Found", 404);
   }
-  const user = deleteUser(email);
+  await deleteUser(email);
 
   return {
-    user,
+    status: "success",
+    message: "User successfully deleted.",
   };
 };
 
 const registerUser = async ({ name, email, password }) => {
   const existingUser = await findUserByEmail(email);
 
-  if (!!existingUser.length) {
-    throw new AppError("User already exists", 400);
+  if (existingUser) {
+    throw new AppError("User already exists", 409);
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = await createUser({
-    name,
-    email,
-    password: hashedPassword,
-  });
-
-  return {
-    user,
-  };
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return await createUser({
+      name,
+      email,
+      password: hashedPassword,
+    });
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      throw new AppError("User already exists", 409);
+    }
+    throw error;
+  }
 };
 
 const loginUser = async ({ email, password }) => {
-  const user = await findUserByEmail(email);
+  const result = await findUserByEmail(email);
 
-  if (!user.length) {
-    throw new AppError("user not found!", 401);
+  if (!result) {
+    throw new AppError("Invalid email or password", 401);
   }
 
-  const isMatch = await bcrypt.compare(password, user[0].password);
-
+  const isMatch = await bcrypt.compare(password, result?.password);
   if (!isMatch) {
-    throw new AppError("username or password is incorrect!", 401);
+    throw new AppError("Invalid email or password", 401);
   }
 
   return {
     status: "success",
-    user: {
-      name: user[0].name,
-      email: user[0].email,
+    data: {
+      name: result.name,
+      email: result.email,
     },
   };
 };
-
 module.exports = { registerUser, loginUser, removeUser };

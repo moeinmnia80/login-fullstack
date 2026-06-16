@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const env = require("./env.js");
+const mapDatabaseError = require("../utils/mapDatabaseError.js");
 
 const connectDB = mysql.createPool({
   host: env.dbHost,
@@ -17,22 +18,22 @@ const connectDB = mysql.createPool({
   connectTimeout: 10000,
 });
 
-const fetchData = (query, options = []) => {
+const executeQuery = (query, params = []) => {
   return new Promise((resolve, reject) => {
-    connectDB.query(query, options, (error, result) => {
+    connectDB.query(query, params, (error, result) => {
       if (error) {
-        const dbError = new Error(error.sqlMessage || "Database query failed");
+        const mappedError = mapDatabaseError(error);
 
-        dbError.statusCode = 500;
-        dbError.code = error.code;
-        dbError.sqlState = error.sqlState;
+        if (env.nodeEnv === "development") {
+          mappedError.details = error.sqlMessage;
+        }
 
-        return reject(dbError);
+        return reject(mappedError);
       }
 
-      resolve(structuredClone(result));
+      resolve(result);
     });
   });
 };
 
-module.exports = fetchData;
+module.exports = executeQuery;
