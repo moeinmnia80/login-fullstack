@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const compression = require("compression");
 const notFound = require("./middleware/notFound.middleware.js");
 const errorHandler = require("./middleware/error.middleware.js");
 const { getCoursesController } = require("./controller/courses.controller.js");
@@ -7,7 +9,9 @@ const corsOptions = require("./config/cors.js");
 
 const app = express();
 
+app.use(helmet());
 app.use(cors(corsOptions));
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
